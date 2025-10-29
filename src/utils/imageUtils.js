@@ -7,15 +7,12 @@ import * as ImagePicker from "expo-image-picker";
  * Uses Expo's ImagePicker API (since it's simple and well-supported).
  */
 
-/**
- * Opens the image library for the user to select an existing picture.
- * @returns {object|null} selected image or null if cancelled
- */
+
 export const pickImageFromLibrary = async () => {
   const result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
-    aspect: [1, 1], // square crop
+    aspect: [1, 1], 
     quality: 0.8,
   });
 
@@ -25,10 +22,7 @@ export const pickImageFromLibrary = async () => {
   return null;
 };
 
-/**
- * Opens the camera for the user to take a new picture.
- * @returns {object|null} captured image or null if cancelled
- */
+
 export const takePhotoWithCamera = async () => {
   const permission = await ImagePicker.requestCameraPermissionsAsync();
 

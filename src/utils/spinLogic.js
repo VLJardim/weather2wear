@@ -75,7 +75,7 @@ function scoreItem(item, targetSeason, tempC, bad) {
   return s; // Total score for this item
 }
 
-// Smart category filtering - handles plural/singular and synonyms
+// Flexible category matching
 function filterByCategory(items, category) {
   const normalized = category.toLowerCase();
   return items.filter((i) => {
@@ -107,19 +107,7 @@ function pickBest(items, targetSeason, tempC, bad) {
   return top[Math.floor(Math.random() * top.length)];
 }
 
-/**
- * MAIN OUTFIT GENERATION FUNCTION
- * 
- * Generates a complete weather-appropriate outfit using intelligent rules:
- * - Summer: Prioritizes dresses, replaces outerwear with accessories
- * - Other seasons: Uses traditional top + bottom + outerwear + shoes
- * - Always considers weather conditions (rain/snow protection)
- * - Scores items for best weather match
- * 
- * @param {Array} allItems - All available clothing items from wardrobe
- * @param {Object} weather - Weather object with temperature and condition
- * @returns {Object} Outfit object with categories as keys {top: item, bottom: item, etc.}
- */
+
 export function generateWeatherAwareOutfit(allItems, weather) {
   // Extract weather data
   const temp = Number(weather?.temperature ?? 18);  // Default to mild temperature
@@ -138,11 +126,11 @@ export function generateWeatherAwareOutfit(allItems, weather) {
 
   const outfit = {}; // Will store selected clothing items
 
-  // SUMMER SPECIAL LOGIC - Different rules for hot weather
+  //  SUMMER RULESET
   if (season === "Summer") {
     console.log("🌞 Summer mode active — replacing Jackets with Dresses/Accessories");
 
-    // 1️⃣ Try to find a dress first (replaces top + bottom combination)
+    //  Try Dress (replaces Top + Bottom)
     const dressPool = filterByCategory(allItems, "Dresses").filter(
       (it) => seasonMatches(it.season, season) || it.fallbackSeason === "All Year"
     );
@@ -151,7 +139,7 @@ export function generateWeatherAwareOutfit(allItems, weather) {
     if (dressPick) {
       outfit.dress = dressPick; // Use dress instead of separate top/bottom
     } else {
-      // 2️⃣ No suitable dress found → pick separate top & bottom
+      //  No Dress found → pick separate Top & Bottom
       const topPool = filterByCategory(allItems, "Tops").filter(
         (it) => seasonMatches(it.season, season) || it.fallbackSeason === "All Year"
       );
@@ -169,20 +157,20 @@ export function generateWeatherAwareOutfit(allItems, weather) {
       outfit.bottom = pickBest(bottomPool.length ? bottomPool : filterByCategory(allItems, "Bottoms"), season, temp, bad);
     }
 
-    // 3️⃣ Always include appropriate shoes
+    // Always include Shoes
     const shoePool = filterByCategory(allItems, "Shoes").filter(
       (it) => seasonMatches(it.season, season) || it.fallbackSeason === "All Year"
     );
     outfit.shoes = pickBest(shoePool, season, temp, bad);
 
-    // 4️⃣ In summer, replace heavy outerwear with light accessories
+    // Replace Outerwear → Accessories
     const accPool = filterByCategory(allItems, "Accessories").filter(
       (it) => seasonMatches(it.season, season) && temp >= 20  // Only for warm weather
     );
     outfit.accessory = pickBest(accPool, season, temp, bad) || null;
   }
 
-  // 🍂 NON-SUMMER SEASONS (Normal jacket logic)
+  // NON-SUMMER SEASONS (Normal jacket logic)
   else {
     console.log(`🧥 ${season} mode active — using standard outfit logic`);
     const cats = ["Tops", "Bottoms", "Outerwear", "Shoes"];
@@ -227,6 +215,6 @@ export function generateWeatherAwareOutfit(allItems, weather) {
     }
   }
 
-  console.log("🎯 Final Outfit Generated:", outfit);
+  console.log(" Final Outfit Generated:", outfit);
   return outfit;
 }

@@ -51,17 +51,17 @@ export default function HomeScreen() {
         contentInsetAdjustmentBehavior="automatic" // Handles iOS keyboard adjustments
       >
         <View style={styles.container}>
-          {/* App Logo - displays the Weather2Wear branding */}
+          {/* 🏷️ Logo */}
           <Image
             source={require("../../assets/logoo.png")}
             style={styles.logo}
             resizeMode="contain" // Keeps aspect ratio
           />
           </View>
-          {/* Weather Widget - shows current weather conditions and temperature */}
+          {/* 🌤️ Weather Widget */}
           <WeatherWidget onPress={handleWeatherPress} />
 
-          {/* Outfit Roulette - main feature for generating outfit suggestions */}
+          {/* 🎡 Outfit Roulette Display */}
           <RouletteDisplay
             outfit={currentOutfit}  // Currently generated outfit
             isSpinning={isSpinning} // Loading state during generation

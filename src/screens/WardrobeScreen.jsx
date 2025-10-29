@@ -24,17 +24,14 @@ import { View, ScrollView, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
-// Custom components for the wardrobe interface
-import ScreenWrapper from "../components/Layout/ScreenWrapper";     // Layout wrapper
-import ProfileCard from "../components/ProfileCard";               // User profile display
-import FilterBar from "../components/FilterBar";                   // Filter controls
-import FilterOverlay from "../components/Layout/FilterOverlay";    // Filter modal
-import GridContainer from "../components/GridContainer";           // Grid of clothing items
-
-// Context hooks for state management
-import { useWardrobe } from "../context/WardrobeContext";    // Access clothing data
-import { useFavorites } from "../context/FavoritesContext"; // Access favorites
-import { wardrobeData } from "../data/WardrobeData"; // ✅ fallback data if no user items
+import ScreenWrapper from "../components/Layout/ScreenWrapper";
+import ProfileCard from "../components/ProfileCard";
+import FilterBar from "../components/FilterBar";
+import FilterOverlay from "../components/Layout/FilterOverlay";
+import GridContainer from "../components/GridContainer";
+import { useWardrobe } from "../context/WardrobeContext";
+import { useFavorites } from "../context/FavoritesContext";
+import { wardrobeData } from "../data/WardrobeData"; // ✅ fallback data
 
 export default function WardrobeScreen() {
   const navigation = useNavigation();
@@ -72,11 +69,11 @@ export default function WardrobeScreen() {
   console.log("🧥 Wardrobe from context:", clothing?.length || 0);
   console.log("🧩 Active filters:", filters);
 
-  // FILTERING LOGIC - Apply user-selected filters to clothing items
+  // ✅ Filtering logic (improved + normalized)
   const filteredItems = actualWardrobe.filter((item) => {
   console.log(`🔎 Checking item: ${item.name} (${item.category})`);
 
-  // CATEGORY FILTER - Check if item matches selected category
+  // --- 🧭 Category filter (case-insensitive + plural-safe)
   if (filters.category && filters.category !== "all") {
     // Normalize category names (remove plurals, case-insensitive)
     const normalizedItemCategory =
@@ -90,7 +87,7 @@ export default function WardrobeScreen() {
     }
   }
 
-  // COLOR FILTER - Check if item has the selected color
+  // --- 🎨 Color filter (case-insensitive)
   if (filters.color && filters.color !== "all") {
     const normalizedFilterColor = filters.color?.toLowerCase?.() || "";
     const hasColor = item.colors?.some(
@@ -102,7 +99,7 @@ export default function WardrobeScreen() {
     }
   }
 
-  // SEASON FILTER - Check if item is suitable for selected season
+  // --- 🌦️ Season filter (case-insensitive + supports arrays)
   if (filters.season && filters.season !== "all") {
     const normalizedSeason = filters.season?.toLowerCase?.() || "";
     // Handle both single season and array of seasons
@@ -117,13 +114,12 @@ export default function WardrobeScreen() {
   }
 
   console.log(`✅ Passed filters: ${item.name}`);
-  return true; // Item passed all filters
+  return true;
 });
 
-  console.log("✅ Filtered item count:", filteredItems.length);
+  console.log("Filtered item count:", filteredItems.length);
 
-  // DETERMINE WHAT TO DISPLAY
-  // Priority: favorites > user's wardrobe > fallback dataset
+  // ✅ Display favorites, or full wardrobe, or fallback to dataset
   const displayedItems = showFavorites
     ? favorites                          // Show only favorites
     : actualWardrobe.length === 0       
