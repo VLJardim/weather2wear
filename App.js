@@ -88,22 +88,23 @@ export default function App() {
 
   return (
     // Wrap entire app in context providers to share state globally
-    <FavoritesProvider>   {/* Manages user's favorite outfits */}
-      <WardrobeProvider>  {/* Manages all clothing items */}
-        <WeatherProvider> {/* Manages weather data and location */}
+    <FavoritesProvider>   
+      <WardrobeProvider>  
+        <WeatherProvider> 
           <NavigationContainer ref={(nav) => setNavigation(nav)}>
             <Tab.Navigator
-              initialRouteName="Home" // Start on Home screen
+              initialRouteName="Home" 
               screenOptions={({ route }) => ({
-                headerShown: false,     // Hide default navigation header
-                tabBarActiveTintColor: "#6F8D6B",   // Green color for active tab
-                tabBarInactiveTintColor: "#999",     // Gray color for inactive tabs
+                headerShown: false,     
+                tabBarActiveTintColor: "#6F8D6B",   
+                tabBarInactiveTintColor: "#999",   
                 tabBarStyle: {
                   backgroundColor: "#fff",
                   borderTopWidth: 0,
-                  elevation: 10,        // Android shadow
-                  height: 70,          // Tab bar height
+                  elevation: 10,        
+                  height: 70,         
                 },
+
                 // Configure icons for each tab based on route name
                 tabBarIcon: ({ focused, color, size }) => {
                   let iconName;
@@ -114,35 +115,35 @@ export default function App() {
                 },
               })}
             >
-              {/* Add Clothing Tab - intercepts tap to show camera/gallery modal */}
+              {/* Add Clothing Tab */}
               <Tab.Screen
                 name="Add Clothing"
                 component={AddClothingScreen}
                 listeners={{
                   tabPress: (e) => {
-                    e.preventDefault();        // Prevent normal navigation
-                    handleAddClothingPress();  // Show image picker modal instead
+                    e.preventDefault();  
+                    handleAddClothingPress();  
                   },
                 }}
                 initialParams={{ selectedImage }} // Pass selected image to screen
               />
-              {/* Home Tab - main screen with weather and outfit suggestions */}
+              {/* Home Tab */}
               <Tab.Screen name="Home" component={HomeScreen} />
-              {/* Wardrobe Tab - browse saved clothing items */}
+              {/* Wardrobe Tab */}
               <Tab.Screen 
                 name="Wardrobe" 
                 component={WardrobeScreen}
-                options={{ title: "Wardrobe" }} // Set tab title
+                options={{ title: "Wardrobe" }}
               />
             </Tab.Navigator>
 
             {/* Global image picker modal - appears over all screens when triggered */}
             <ImagePickerModal
-              visible={modalVisible}                    // Controls modal visibility
-              onClose={() => setModalVisible(false)}    // Close modal handler
-              onTakePhoto={handleTakePhoto}             // Camera handler
-              onChooseFromGallery={handleChooseFromGallery} // Gallery handler
-              loading={loading}                         // Shows loading state
+              visible={modalVisible}                   
+              onClose={() => setModalVisible(false)}   
+              onTakePhoto={handleTakePhoto}          
+              onChooseFromGallery={handleChooseFromGallery}
+              loading={loading}               
             />
           </NavigationContainer>
         </WeatherProvider>

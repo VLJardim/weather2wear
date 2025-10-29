@@ -1,41 +1,24 @@
-/**
- * WARDROBE CONTEXT - MANAGES ALL CLOTHING ITEMS
- * 
- * This context provides:
- * - clothing: Array of all clothing items in the wardrobe
- * - addClothingItem: Function to add new items
- * - removeClothingItem: Function to remove items
- * - currentOutfit: Currently generated outfit
- * - generateOutfit: Function to create random outfit
- * 
- * Used by: HomeScreen (outfit generation), WardrobeScreen (display items), 
- *          AddClothingScreen (add new items)
- */
-
-// src/context/WardrobeContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { wardrobeData } from "../data/WardrobeData"; // ✅ Import real dataset
 
-// 🧭 Create context
+// Create context
 const WardrobeContext = createContext();
 
 /**
- * 📦 Provider that manages clothing data and outfit generation.
- * Loads your full wardrobeData at startup, but still allows add/remove features.
+  Provider that manages clothing data and outfit generation.
  */
 export const WardrobeProvider = ({ children }) => {
   const [clothing, setClothing] = useState([]); // starts empty
   const [currentOutfit, setCurrentOutfit] = useState(null);
 
-  // 🧠 Load full wardrobeData once at mount
+  // Load full wardrobeData once at mount
   useEffect(() => {
     console.log("👕 Loading wardrobe dataset...");
     setClothing(wardrobeData);
   }, []);
 
   /**
-   * 🎰 Randomly generate an outfit with one item from each category.
-   * (Used only for local/manual outfit generation — roulette uses spinLogic instead)
+   Randomly generate an outfit with one item from each category.
    */
   const generateOutfit = () => {
     if (!clothing || clothing.length === 0) {
@@ -55,8 +38,7 @@ export const WardrobeProvider = ({ children }) => {
   };
 
   /**
-   * 🧥 Add a new clothing item to the wardrobe.
-   * If no image is provided, null is stored (UI handles placeholder).
+    Add a new clothing item to the wardrobe.
    */
   const addClothingItem = (item) => {
     const newItem = {
@@ -68,20 +50,20 @@ export const WardrobeProvider = ({ children }) => {
   };
 
   /**
-   * 🧼 Remove a clothing item by its ID.
+    Remove a clothing item by its ID.
    */
   const removeClothingItem = (id) => {
     setClothing((prev) => prev.filter((item) => item.id !== id));
   };
 
   /**
-   * 🧰 Clear the current outfit (optional helper).
+   Clear the current outfit (optional helper).
    */
   const clearOutfit = () => {
     setCurrentOutfit(null);
   };
 
-  // 🧩 Debug log to confirm what’s loaded
+  //  Debug log to confirm what’s loaded
   useEffect(() => {
     console.log(`📦 Wardrobe now has ${clothing.length} items`);
   }, [clothing]);
@@ -105,8 +87,7 @@ export const WardrobeProvider = ({ children }) => {
 };
 
 /**
- * 🪝 Custom hook for accessing wardrobe data.
- * Make sure WardrobeProvider wraps your component tree.
+ Custom hook for accessing wardrobe data.
  */
 export const useWardrobe = () => {
   const context = useContext(WardrobeContext);
