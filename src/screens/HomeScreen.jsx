@@ -30,17 +30,17 @@ export default function HomeScreen() {
         contentInsetAdjustmentBehavior="automatic"
       >
         <View style={styles.container}>
-          {/* 🏷️ Logo */}
+          {/*  Logo */}
           <Image
             source={require("../../assets/logoo.png")}
             style={styles.logo}
             resizeMode="contain"
           />
           </View>
-          {/* 🌤️ Weather Widget */}
+          {/* Weather Widget */}
           <WeatherWidget onPress={handleWeatherPress} />
 
-          {/* 🎡 Outfit Roulette Display */}
+          {/* Outfit Roulette Display */}
           <RouletteDisplay
             outfit={currentOutfit}
             isSpinning={isSpinning}

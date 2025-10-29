@@ -11,7 +11,7 @@ import FilterOverlay from "../components/Layout/FilterOverlay";
 import GridContainer from "../components/GridContainer";
 import { useWardrobe } from "../context/WardrobeContext";
 import { useFavorites } from "../context/FavoritesContext";
-import { wardrobeData } from "../data/WardrobeData"; // ✅ fallback data
+import { wardrobeData } from "../data/WardrobeData"; 
 
 export default function WardrobeScreen() {
   const navigation = useNavigation();
@@ -42,11 +42,11 @@ export default function WardrobeScreen() {
   console.log("🧥 Wardrobe from context:", clothing?.length || 0);
   console.log("🧩 Active filters:", filters);
 
-  // ✅ Filtering logic (improved + normalized)
+  // Filtering logic (improved + normalized)
   const filteredItems = actualWardrobe.filter((item) => {
   console.log(`🔎 Checking item: ${item.name} (${item.category})`);
 
-  // --- 🧭 Category filter (case-insensitive + plural-safe)
+  // ---Category filter (case-insensitive + plural-safe)
   if (filters.category && filters.category !== "all") {
     const normalizedItemCategory =
       item.category?.toLowerCase()?.replace(/s$/, "") || "";
@@ -59,7 +59,7 @@ export default function WardrobeScreen() {
     }
   }
 
-  // --- 🎨 Color filter (case-insensitive)
+  // --- Color filter (case-insensitive)
   if (filters.color && filters.color !== "all") {
     const normalizedFilterColor = filters.color?.toLowerCase?.() || "";
     const hasColor = item.colors?.some(
@@ -71,7 +71,7 @@ export default function WardrobeScreen() {
     }
   }
 
-  // --- 🌦️ Season filter (case-insensitive + supports arrays)
+  // --- Season filter (case-insensitive + supports arrays)
   if (filters.season && filters.season !== "all") {
     const normalizedSeason = filters.season?.toLowerCase?.() || "";
     const itemSeasons = Array.isArray(item.season)
@@ -84,13 +84,13 @@ export default function WardrobeScreen() {
     }
   }
 
-  console.log(`✅ Passed filters: ${item.name}`);
+  console.log(`Passed filters: ${item.name}`);
   return true;
 });
 
-  console.log("✅ Filtered item count:", filteredItems.length);
+  console.log("Filtered item count:", filteredItems.length);
 
-  // ✅ Display favorites, or full wardrobe, or fallback to dataset
+  // Display favorites, or full wardrobe, or fallback to dataset
   const displayedItems = showFavorites
     ? favorites
     : actualWardrobe.length === 0

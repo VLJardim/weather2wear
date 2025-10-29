@@ -9,7 +9,7 @@ export default function AddClothingScreen() {
   const route = useRoute();
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // 📸 Get image from route params
+  //  Get image from route params
   useEffect(() => {
     if (route.params?.selectedImage) {
       setSelectedImage(route.params.selectedImage);
@@ -28,7 +28,7 @@ export default function AddClothingScreen() {
     navigation.navigate('Home');
   };
 
-  // 🪄 Empty state when no image is selected
+  // Empty state when no image is selected
   if (!selectedImage) {
     return (
       <View style={[styles.container, styles.emptyState]}>

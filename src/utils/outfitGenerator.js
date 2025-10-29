@@ -7,11 +7,7 @@ import { CATEGORIES } from "./constants";
  * It’s used by the roulette hook to “spin” and pick an outfit combination.
  */
 
-/**
- * @param {Array} wardrobe - array of clothing objects
- * @param {string} weatherType - one of "cold", "mild", "warm"
- * @returns {Array} randomly selected outfit pieces
- */
+
 export const generateOutfit = (wardrobe, weatherType) => {
   // 1. Filter wardrobe items that fit current weather
   const filtered = wardrobe.filter((item) => item.weatherType === weatherType);
