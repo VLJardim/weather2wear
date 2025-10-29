@@ -1,19 +1,46 @@
+/**
+ * WARDROBE DATA - SAMPLE CLOTHING ITEMS DATABASE
+ * 
+ * This file contains a comprehensive dataset of clothing items used as:
+ * 1. Fallback data when users haven't added their own clothes
+ * 2. Demo data to showcase the app's functionality
+ * 3. Reference for data structure when adding new items
+ * 
+ * Each clothing item contains:
+ * - id: Unique identifier
+ * - category: Clothing type (Accessories, Tops, Bottoms, Dress, Outerwear, Shoes)
+ * - type: Sub-type for more specific categorization
+ * - name: Display name for the item
+ * - image: require() statement for the item's image
+ * - season: Primary season(s) the item is suitable for
+ * - fallbackSeason: Backup season compatibility (often "All Year")
+ * - temperatureRange: [min, max] temperature range in Celsius
+ * - colors: Array of color codes the item contains
+ * - closedShoe: (shoes only) Boolean for weather protection
+ * 
+ * Used by:
+ * - WardrobeContext (fallback when no user items)
+ * - spinLogic utility (outfit generation algorithm)
+ * - ClothingCard (item lookups by ID)
+ */
+
 // src/data/wardrobeData.js
-// Clean, consistent dataset with `type` for outfit rules.
-// Accessories & Dresses are Summer-only to support "replace Jacket in summer" logic.
+// Clean, consistent dataset with proper categorization for outfit generation.
+// Accessories & Dresses are Summer-focused to support seasonal outfit logic.
 
 export const wardrobeData = [
-  // 🕶️ ACCESSORIES (Summer-only)
+  // 🕶️ ACCESSORIES SECTION
+  // Summer accessories that replace heavy outerwear in hot weather
   {
     id: 1,
     category: "Accessories",
     type: "Accessory",
     name: "Guld kæde",
     image: require("../assets-app/images/Accessories/guld-halskade.png"),
-    season: "Summer",
-    fallbackSeason: "All Year",
-    temperatureRange: [-5, 40],
-    colors: ["#FFFF00"],
+    season: "Summer",              // Primary season
+    fallbackSeason: "All Year",    // Can be used year-round
+    temperatureRange: [-5, 40],    // Very flexible temperature range
+    colors: ["#FFFF00"],           // Yellow/gold color
   },
   {
     id: 2,

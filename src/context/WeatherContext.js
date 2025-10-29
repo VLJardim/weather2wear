@@ -1,12 +1,32 @@
+/**
+ * WEATHER CONTEXT - MANAGES WEATHER DATA AND LOCATION
+ * 
+ * This context provides:
+ * - weather: Current weather data (temperature, conditions, etc.)
+ * - loading: Boolean indicating if weather is being fetched
+ * - error: Error message if weather fetch fails
+ * - refreshWeather: Function to manually refresh weather data
+ * 
+ * How it works:
+ * 1. Gets user's GPS location using locationService
+ * 2. Fetches weather data using weatherService
+ * 3. Automatically loads weather when app starts
+ * 
+ * Used by: HomeScreen (display weather), WeatherWidget (show current conditions)
+ */
+
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { getCurrentLocation } from "../services/locationService";
 import { getWeatherByCoordinates } from "../services/weatherService";
 
-const WeatherContext = createContext();
+const WeatherContext = createContext(); // Create the context for sharing weather data
 
 export const WeatherProvider = ({ children }) => {
+  // State to store weather data (temperature, description, etc.)
   const [weather, setWeather] = useState(null);
+  // State to store any error messages
   const [error, setError] = useState(null);
+  // State to indicate if weather is currently being fetched
   const [loading, setLoading] = useState(false);
 
   /**

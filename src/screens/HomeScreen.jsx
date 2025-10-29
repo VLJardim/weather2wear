@@ -1,23 +1,44 @@
+/**
+ * HOME SCREEN - MAIN LANDING PAGE OF THE APP
+ * 
+ * This is the primary screen users see when opening the app.
+ * Features:
+ * - App logo at the top
+ * - Weather widget showing current conditions
+ * - Outfit roulette for generating random outfit suggestions
+ * 
+ * Components used:
+ * - WeatherWidget: Shows current weather and temperature
+ * - RouletteDisplay: Shows generated outfit and spin button
+ * - useRoulette hook: Manages outfit generation logic
+ */
+
 // src/screens/HomeScreen.jsx
 import React from "react";
 import { View, StyleSheet, ScrollView, Image } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context"; // Handles device notches/safe areas
 import { useNavigation } from "@react-navigation/native";
-import WeatherWidget from "../components/Layout/WeatherWidget";
-import { useRoulette } from "../hooks/useRoulette";
-import RouletteDisplay from "../components/Layout/RouletteDisplay";
-import MyFont from "../components/forms/MyFont"; // ✅ Import MyFont
+
+// Custom components
+import WeatherWidget from "../components/Layout/WeatherWidget";   // Displays weather info
+import { useRoulette } from "../hooks/useRoulette";              // Custom hook for outfit generation
+import RouletteDisplay from "../components/Layout/RouletteDisplay"; // Shows outfit and spin button
+import MyFont from "../components/forms/MyFont"; // ✅ Import MyFont for custom typography
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  
+  // Get outfit generation functions from custom hook
   const { spinRoulette, isSpinning, currentOutfit } = useRoulette();
 
+  // Hide the default navigation header for this screen
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, [navigation]);
 
+  // Placeholder handler for weather widget press (future feature)
   const handleWeatherPress = () => {
     alert("Weather details coming soon!");
   };
@@ -26,25 +47,25 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
-        contentInsetAdjustmentBehavior="automatic"
+        keyboardShouldPersistTaps="handled"      // Allows taps while keyboard is open
+        contentInsetAdjustmentBehavior="automatic" // Handles iOS keyboard adjustments
       >
         <View style={styles.container}>
-          {/* 🏷️ Logo */}
+          {/* App Logo - displays the Weather2Wear branding */}
           <Image
             source={require("../../assets/logoo.png")}
             style={styles.logo}
-            resizeMode="contain"
+            resizeMode="contain" // Keeps aspect ratio
           />
           </View>
-          {/* 🌤️ Weather Widget */}
+          {/* Weather Widget - shows current weather conditions and temperature */}
           <WeatherWidget onPress={handleWeatherPress} />
 
-          {/* 🎡 Outfit Roulette Display */}
+          {/* Outfit Roulette - main feature for generating outfit suggestions */}
           <RouletteDisplay
-            outfit={currentOutfit}
-            isSpinning={isSpinning}
-            onSpin={spinRoulette}
+            outfit={currentOutfit}  // Currently generated outfit
+            isSpinning={isSpinning} // Loading state during generation
+            onSpin={spinRoulette}   // Function to generate new outfit
           />
           
         

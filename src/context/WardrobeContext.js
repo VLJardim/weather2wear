@@ -1,3 +1,17 @@
+/**
+ * WARDROBE CONTEXT - MANAGES ALL CLOTHING ITEMS
+ * 
+ * This context provides:
+ * - clothing: Array of all clothing items in the wardrobe
+ * - addClothingItem: Function to add new items
+ * - removeClothingItem: Function to remove items
+ * - currentOutfit: Currently generated outfit
+ * - generateOutfit: Function to create random outfit
+ * 
+ * Used by: HomeScreen (outfit generation), WardrobeScreen (display items), 
+ *          AddClothingScreen (add new items)
+ */
+
 // src/context/WardrobeContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { wardrobeData } from "../data/WardrobeData"; // ✅ Import real dataset
